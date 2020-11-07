@@ -56,21 +56,14 @@ if($email && $pass) {
             <div class="col-12" style="text-align: center">
                 <h1 id="LogoName"><img src="CSS-Content/Logo/LOGOInvertedFinal.png" style="width:150px;height:150px;"/>RUSH</h1>
                 <br>
-                <h1 id="slogan">PROFILE</h1>
             </div>
         </div>
     </section>
 </div>
 <div class="container">
     <section id="forms" class="mt-5">
-        <div class="row justify-content-center ">
-            <div class="col-0 col-sm-0 mx-0">
-                <div class="card-border-dark mt-4" style="max-height:700px;width:100%">
-                    <img src="CSS-Content/ProfilePictures/' . $row["profileImage"] . '" style="width:300px; max-height:100%; filter: invert(0%); border-radius:50%;"/>
-                </div>
-            </div>
-        </div>
-                                    <p class="p3" style="text-align: center; font-size: 50px">Follow</p>
+        
+                                    <p class="p3" style="text-align: center; font-size: 50px">Follow Users</p>
                                         <div class="container">
                                             <section class="mt-5">
                                                 <div class="row">
@@ -93,18 +86,19 @@ if($email && $pass) {
                                                                         </br>
                                                                         ';
                                                                             if(isset($_POST["searchfollower"])) {
-                                                                                $queryUsers = "SELECT * FROM tbusers WHERE username LIKE '%".$_POST["searchfollower"]."%'";
+                                                                                $queryUsers = "SELECT * FROM tbusers WHERE (tbusers.username NOT IN (SELECT followed_username FROM `tbfollowers` WHERE username = '".$_POST["loginEmail"]."') AND `username` != '".$_POST["loginEmail"]."') AND tbusers.username LIKE '%".$_POST["searchfollower"]."%'";
                                                                                 global $conn;
                                                                                 include('includes/config.php');
                                                                                 $resUsers = $conn->query($queryUsers);
                                                                             }
                                                                             else
                                                                             {
-                                                                                $queryUsers = "SELECT * FROM tbusers";
+                                                                                $queryUsers = "SELECT * FROM tbusers WHERE tbusers.username NOT IN (SELECT followed_username FROM `tbfollowers` WHERE username = '".$_POST["loginEmail"]."') AND `username` != '".$_POST["loginEmail"]."'";
                                                                                 global $conn;
                                                                                 include('includes/config.php');
                                                                                 $resUsers = $conn->query($queryUsers);
                                                                             }
+
                                                                                 while ($rowUser = $resUsers->fetch_assoc()) {
                                                                                     echo '
                                                                             <form class="ProfileForm" method="POST" action="FollowAndUnfollow.php" enctype="multipart/form-data">
@@ -121,7 +115,7 @@ if($email && $pass) {
                                                                                 </br>
                                                                                 </br>
                                                                                 <div class="col-5 mt-3" align="center" >
-                                                                                
+                                                                                    <input type="hidden" name="follow" value =' . $rowUser["username"] . ' />
                                                                                     <button class="btn btn-outline-secondary" type="submit" value="addFriend" name="submitAddFriend">F O L L O W</button>
                                                  
                                                                                 </div>
@@ -146,11 +140,137 @@ if($email && $pass) {
                     </div>
                 </div>
             </div>
+            
+                <p class="p3" style="text-align: center; font-size: 50px">UnFollow Users</p>
+                                        <div class="container">
+                                            <section class="mt-5">
+                                                <div class="row">
+                                                    <div class="col-12" >
+                                                       <div class="card-border-dark mt-0 mb-5">
+                                                            <div class="card-body">
+                                                                <div class="row">
+                                                                    <div class=" col-12 col-sm-12 mb-4" >
+                                                                       <div align="center">
+                                                                               
+                                                                            <form class="ProfileForm" method="POST" action="FollowAndUnfollow.php" enctype="multipart/form-data">
+                                                                                <input class="followerSearch" type="text" name="searchunfollower" id="searchunfollower" placeholder="S E A R C H ... "/>
+                                                                                 <input type="hidden" name="loginEmail" value =' . $_POST["loginEmail"] . ' />
+                                                                                 <input type="hidden" name="loginPass" value =' . $_POST["loginPass"] . ' />   
+                                                                                 <button class="btn btn-outline-secondary" align="center" type="submit" ><i class="fas fa-search"></i> S E A R C H ...  </button>
+                                                                             
+                                                                            </form>
+                                                                       </div>
+                                                                        
+                                                                        </br>
+                                                                        ';
+                                                                                if(isset($_POST["searchunfollower"])) {
+                                                                                    $queryUsers = "SELECT * FROM tbfollowers WHERE tbfollowers.username = '".$_POST["loginEmail"]."' AND followed_username LIKE '%".$_POST["searchunfollower"]."%'";
+                                                                                    global $conn;
+                                                                                    include('includes/config.php');
+                                                                                    $resUsers = $conn->query($queryUsers);
+                                                                                }
+                                                                                else
+                                                                                {
+                                                                                    $queryUsers = "SELECT * FROM tbfollowers WHERE tbfollowers.username = '".$_POST["loginEmail"]."' ";
+                                                                                    global $conn;
+                                                                                    include('includes/config.php');
+                                                                                    $resUsers = $conn->query($queryUsers);
+                                                                                }
+                                                                                while ($rowUser = $resUsers->fetch_assoc()) {
+                                                                                echo '
+                                                                            <form class="ProfileForm" method="POST" action="FollowAndUnfollow.php" enctype="multipart/form-data">
+                                                                                <input type="hidden" name="loginEmail" value =' . $_POST["loginEmail"] . ' />
+                                                                                <input type="hidden" name="loginPass" value =' . $_POST["loginPass"] . ' />
+                                                                                
+                                                                                <div class="row">
+                                                                                <div class="offset-1 col-2 mt-3">
+                                                                                    <img class="smallPP" align="right" src="CSS-Content/ProfilePictures/' . $row["profileImage"] . '" />
+                                                                                </div>
+                                                                                <div class="col-4 mt-3">
+                                                                                    <a class="followLink p3">' . $rowUser["followed_username"] . '</a>
+                                                                                </div>
+                                                                                </br>
+                                                                                </br>
+                                                                                <div class="col-5 mt-3" align="center" >
+                                                                                
+                                                                                    <input type="hidden" name="unfollow" value =' . $rowUser["followed_username"] . ' />
+                                                                                    <button class="btn btn-outline-secondary" type="submit" value="addFriend" name="submitAddFriend">U N F O L L O W</button>
+                                                 
+                                                                                </div>
+                                                                                </div>
+                                                                            </form>
+                                                                            
+                                                                            ';
+        }
+
+        if(isset($_POST["follow"])){
+
+            $sqlFollowers = "INSERT INTO tbfollowers (ff_id, username, followed_username) VALUES (null,'".$_POST["loginEmail"]."','".$_POST["follow"]."')";
+            echo $sqlFollowers;
+            global $conn;
+            include ('includes/config.php');
+            $res = mysqli_query($conn, $sqlFollowers) == TRUE;
+            echo '
+        
+       <script type="text/javascript">
+            $(window).on("load", function() {
+                // Handler for .load() called.
+                //alert("document is ready");
+                $("form#reloadForm").submit();
+                
+                });
+        </script>
+    ';
+
+        }
+        if(isset($_POST["unfollow"])){
+
+            $sqlFollowers = "DELETE FROM tbfollowers WHERE username = '".$_POST["loginEmail"]."' AND followed_username = '".$_POST["unfollow"]."'";
+            global $conn;
+            include ('includes/config.php');
+            $res = mysqli_query($conn, $sqlFollowers) == TRUE;
+            echo '
+         <script type="text/javascript">
+            $(window).on("load", function() {
+                // Handler for .load() called.
+                //alert("document is ready");
+                $("form#reloadForm").submit();
+                
+                });
+        </script>
+    ';
+
+
+        }
+        echo'
+                                                                    
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </section>
+                                        </div>
+                                    </div>
+                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 </div>
+<form class="ProfileForm" id="reloadForm" method="POST" action="FollowAndUnfollow.php" enctype="multipart/form-data">
+                 <input type="hidden" name="loginEmail" value =' . $_POST["loginEmail"] . ' />
+                 <input type="hidden" name="loginPass" value =' . $_POST["loginPass"] . ' />   
+                 <button type="submit" class="reload invisible" value="Edit" />
+            </form>
 </body>
 </html>';
+
+
+
 
     }else {
         echo '<div class="alert alert-danger mt-3" role="alert">

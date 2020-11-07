@@ -32,6 +32,8 @@ $email = isset($_POST["loginEmail"]) ? $_POST["loginEmail"] : false;
 $pass = isset($_POST["loginPass"]) ? $_POST["loginPass"] : false;
 
 if($email && $pass){
+
+
     $query = "SELECT * FROM tbusers WHERE email = '$email' AND password = '$pass'";
     global $conn;
     include('includes/config.php');

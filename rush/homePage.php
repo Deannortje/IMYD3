@@ -97,10 +97,23 @@ $pass = isset($_POST["loginPass"]) ? $_POST["loginPass"] : false;
 
                                                 <button class="btn btn-outline-secondary" type="submit" value="Albums" name="submitAlbums">A l b u m s</button>
                                          </form>
+                                        <form class="commentForm" method="POST" action="homePage.php">
                                         
-              
-                                        <button class="btn btn-outline-secondary" type="button">G l o b a l</button>
-                                        <button class="btn btn-outline-secondary" type="button">L o c a l</button>
+                                                <input type="hidden" name="loginEmail" value ='.$_POST["loginEmail"].' />
+                                                <input type="hidden" name="loginPass" value ='.$_POST["loginPass"].' />
+                                                
+
+                                                <button class="btn btn-outline-secondary" type="submit" name="global">G l o b a l</button>
+                                         </form>
+                                         <form class="commentForm" method="POST" action="homePage.php">
+                                        
+                                                <input type="hidden" name="loginEmail" value ='.$_POST["loginEmail"].' />
+                                                <input type="hidden" name="loginPass" value ='.$_POST["loginPass"].' />
+                                                
+
+                                                <button class="btn btn-outline-secondary" type="submit" name="local">L o c a l</button>
+                                         </form>
+           
                                         
                                        <!--<form class="commentForm" method="POST" action="profilePage.php">
                                         
@@ -202,15 +215,23 @@ $pass = isset($_POST["loginPass"]) ? $_POST["loginPass"] : false;
                         }
                     }
 
+                    if(isset($_POST["global"]))
+                    {
+                        $sql = "SELECT * FROM tbgallery ORDER BY timestampDT DESC";
+                    }
+                    else
+                    {
+                        $sql = "SELECT * FROM tbgallery WHERE user_id IN (SELECT user_id FROM tbusers WHERE username IN (SELECT tbfollowers.followed_username FROM tbfollowers WHERE username = '".$_POST["loginEmail"]."')) ORDER BY timestampDT DESC  ";
+                    }
 
-                    $sql = "SELECT * FROM tbgallery WHERE user_id = ".$row["user_id"];
                     $result = $conn->query($sql);
 
                     $count = 1;
 
                     if($result->num_rows> 0) {
                         // output data of each row
-                        $totalInput = $result->num_rows;
+                        $totalInput = $result->num_rows;// 14
+
                         if($totalInput==1)
                         {
                             $half = -1;
