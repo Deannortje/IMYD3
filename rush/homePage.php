@@ -130,7 +130,7 @@ $pass = isset($_POST["loginPass"]) ? $_POST["loginPass"] : false;
                                                 <input type="hidden" name="loginPass" value ='.$_POST["loginPass"].' />
                                                 
 
-                                                <button class="btn btn-outline-secondary" type="submit" value="Profile" name="submitProfilePage">M e s s a g i n g</button>
+                                                <button class="btn btn-outline-secondary" type="submit" value="Profile" name="submitProfilePage">M e s s a g e</button>
                                          </form>
                                         
                                        <!-- <button class="btn btn-outline-secondary" type="button">Followers</button>
@@ -179,7 +179,7 @@ $pass = isset($_POST["loginPass"]) ? $_POST["loginPass"] : false;
         
         
             <div class="row">
-                <div class="col-12 col-sm-12 col-md-6">
+               
                     
                     
                     ';
@@ -245,129 +245,45 @@ $pass = isset($_POST["loginPass"]) ? $_POST["loginPass"] : false;
                             $half = ($totalInput+1)/2; //total is 3 then half is 2
                         }
 
-                        while($row = $result->fetch_assoc()){
+                        while($row = $result->fetch_assoc()) {
 
-                            if($count==$half) {//LAST RUN TO CLOSE DIV --> half of table
+                            if($count%2!=0) {
                                 echo '
-                                        <div class="card-border-dark mb-3">
+                         
+                            <div class="card-border-dark mb-3 col-6">
                                             <div class="row no-gutters" id="caption1">
-                                                <div class="col-sm-6 col-12 captions" >
-                                                    <div class="cardStyle card-body" >
-                                                     <h5 class="card-title">' . $row["cHeading"] . '</h5>
-                                                     <p class="card-text paragraph2">' . $row["caption"] . '</p>
-                                                     <p class="card-text paragraph2">' . $row["hashtags"] . '</p>
-                                                     <p class="card-text"><small class="text-muted">Uploaded by user' . $row["user_id"] . ' - '.$row["timestampDT"].' </small></p>
-                                                     ';
-
-                                $sqlQuery = "SELECT comment_id, CommentText FROM tbcomments WHERE image_id = ".$row["image_id"]." ORDER BY comment_id DESC" ;
-                                $results = $conn->query($sqlQuery);
-                                $counting = 0;
-                                if($results->num_rows> 0) {
-                                    while ($rows = $results->fetch_assoc()) {
-                                        if($counting<=1) {
-                                            echo '<p>' . $rows["CommentText"] . '</p>';
-                                        }
-
-                                        $counting++;
-                                    }
-                                }
-
-
-                                echo'
-                                                     <button class="comment btn btn-outline-secondary"><i class="far fa-comment-alt"></i></button>
-                                                     <button class="report btn btn-outline-secondary"><i class="far fa-flag"></i></button>
-                                                     
-                                                      <form class="commentForm" method="POST" action="pushComments.php">
-                                                       <br>
-                                                            <div class="form-group">
-                                                                <input type="hidden" name="loginEmail" value ='.$_POST["loginEmail"].' />
-                                                                <input type="hidden" name="loginPass" value ='.$_POST["loginPass"].' />
-                                                                <input type="hidden" name="image_id" value =' . $row["image_id"] . ' />
-                                                               
-                                                                <input type="text" class="form-control" name="comment" id="comment" placeholder="Comment Here"/>
-                                                                <br>
-                                                    
-                                                                <input type="submit" class="btn btn-outline-dark" value="Upload" name="submit" />
-                                                                <button type="button" class="btn btn-outline-dark" >Close</button>
-                                                            </div>
-                                                        </form>
-                                                        
-                                                       <form action="#" method="post" class="reportType">
-                                                        <br>
-                                                              <label for="report">Choose a report type:</label>
-                                                              <select name="reportType" class="reportSelector">
-                                                                <option value="Nudity">Nudity</option>
-                                                                <option value="Violence">Violence</option>
-                                                                <option value="imIn">Im in this post and I do not like it</option>
-                                                                <option value="inappropriate">Inappropriate</option>
-                                                              </select>
-                                                              <br><br>
-                                                              <input type="hidden" name="loginEmail" value ='.$_POST["loginEmail"].' />
-                                                              <input type="hidden" name="loginPass" value ='.$_POST["loginPass"].' />
-                                                              <input class="btn btn-outline-dark" type="submit" value="Submit" name="reportSubmit">
-                                                        </form>
-
-                                                </div>
-                                            </div>
-                                           <div class="col-sm-6 col-12">
-                                                    <form method="post" class="inline" action="PostPage.php" >
-                                                        <input type="hidden" name="loginEmail" value ='.$_POST["loginEmail"].' />
-                                                        <input type="hidden" name="loginPass" value ='.$_POST["loginPass"].' />
-                                                        <input type="hidden" name="image_id" value ='. $row["image_id"] .' />
-                                                      <button type="submit" class="imageButtonClass">
-                          
-                                                            <img src="CSS-Content/gallery/' . $row["filename"] . '" class="posts" alt="CSS-Content/samples/car.jpg"/>
-                                                        
-                                                      </button>
-                                                    </form>
-                                        
-                                                </div>
-                                        </div>
-                                    </div>
-                                </div>
-                        
-                       
-                            ';}
-                                if($half==-1){
-
-
-                                    echo'
-
-
-                                        <div class="card-border-dark mb-3">
-                                            <div class="row no-gutters" id="caption1">
-                                                    <div class="col-sm-6 col-12 captions" >
+                                                    <div class="col-sm-6 col-6 captions" >
                                                         <div class="cardStyle card-body" >
                                                          <h5 class="card-title">' . $row["cHeading"] . '</h5>
                                                          <p class="card-text paragraph2">' . $row["caption"] . '</p>
                                                          <p class="card-text paragraph2">' . $row["hashtags"] . '</p>
-                                                         <p class="card-text"><small class="text-muted">Uploaded by user' . $row["user_id"] . ' - '.$row["timestampDT"].' </small></p>
-                                                         
-                                                                           ';
+                                                         <p class="card-text"><small class="text-muted">Uploaded by user' . $row["user_id"] . ' - ' . $row["timestampDT"] . ' </small></p>
 
-                                    $sqlQuery = "SELECT comment_id, CommentText FROM tbcomments WHERE image_id = ".$row["image_id"]." ORDER BY comment_id DESC" ;
-                                    $results = $conn->query($sqlQuery);
-                                    $counting = 0;
-                                    if($results->num_rows> 0) {
-                                        while ($rows = $results->fetch_assoc()) {
-                                            if($counting<=1) {
-                                                echo '<p>' . $rows["CommentText"] . '</p>';
-                                            }
-                                            $counting++;
+                            ';
 
+                                $sqlQuery = "SELECT comment_id, CommentText FROM tbcomments WHERE image_id = " . $row["image_id"] . " ORDER BY comment_id DESC";
+                                $results = $conn->query($sqlQuery);
+                                $counting = 0;
+                                if ($results->num_rows > 0) {
+                                    while ($rows = $results->fetch_assoc()) {
+                                        if ($counting <= 1) {
+                                            echo '<p>' . $rows["CommentText"] . '</p>';
                                         }
+                                        $counting++;
+
                                     }
+                                }
 
 
-                                    echo'
+                                echo '
                                                          
                                                          <button class="comment btn btn-outline-secondary"><i class="far fa-comment-alt"></i></button>
                                                         <button class="report btn btn-outline-secondary"><i class="far fa-flag"></i></button>
                                                          <form class="commentForm" method="POST" action="PushComments.php">
                                                            <br>
                                                                 <div class="form-group">
-                                                                    <input type="hidden" name="loginEmail" value ='.$_POST["loginEmail"].' />
-                                                                    <input type="hidden" name="loginPass" value ='.$_POST["loginPass"].' />
+                                                                    <input type="hidden" name="loginEmail" value =' . $_POST["loginEmail"] . ' />
+                                                                    <input type="hidden" name="loginPass" value =' . $_POST["loginPass"] . ' />
                                                                     <input type="hidden" name="image_id" value =' . $row["image_id"] . ' />
                                                                    
                                                                     <input type="text" class="form-control" name="comment" id="comment" placeholder="Comment Here"/>
@@ -388,8 +304,8 @@ $pass = isset($_POST["loginPass"]) ? $_POST["loginPass"] : false;
                                                                 <option value="inappropriate">Inappropriate</option>
                                                               </select>
                                                               <br><br>
-                                                              <input type="hidden" name="loginEmail" value ='.$_POST["loginEmail"].' />
-                                                              <input type="hidden" name="loginPass" value ='.$_POST["loginPass"].' />
+                                                              <input type="hidden" name="loginEmail" value =' . $_POST["loginEmail"] . ' />
+                                                              <input type="hidden" name="loginPass" value =' . $_POST["loginPass"] . ' />
                                                               <input class="btn btn-outline-dark" type="submit" value="Submit" name="reportSubmit">
                                                             </form>
                                                         
@@ -398,9 +314,263 @@ $pass = isset($_POST["loginPass"]) ? $_POST["loginPass"] : false;
                                                 <div class="col-sm-6 col-12">
                                                      
                                                     <form method="post" class="inline" action="PostPage.php" >
-                                                        <input type="hidden" name="loginEmail" value ='.$_POST["loginEmail"].' />
-                                                        <input type="hidden" name="loginPass" value ='.$_POST["loginPass"].' />
-                                                        <input type="hidden" name="image_id" value ='. $row["image_id"] .' />
+                                                        <input type="hidden" name="loginEmail" value =' . $_POST["loginEmail"] . ' />
+                                                        <input type="hidden" name="loginPass" value =' . $_POST["loginPass"] . ' />
+                                                        <input type="hidden" name="image_id" value =' . $row["image_id"] . ' />
+                                                      <button type="submit" class="imageButtonClass">
+                                                        
+                                                            <img src="CSS-Content/gallery/' . $row["filename"] . '" class="posts" alt="CSS-Content/samples/car.jpg"/>
+                                                     
+                                                      </button>
+                                                    </form>
+                                        
+                                                </div>
+                                            </div>
+                                        </div>
+                            
+                            ';
+                            }
+                            else
+                            {
+                                echo '
+                                            <div class="card-border-dark mb-3 col-6" >
+                                                <div class="row no-gutters" id="caption1">
+                                                     <div class="col-sm-6 col-12">
+                                                    <form method="post" class="inline" action="PostPage.php" >
+                                                        <input type="hidden" name="loginEmail" value =' . $_POST["loginEmail"] . ' />
+                                                        <input type="hidden" name="loginPass" value =' . $_POST["loginPass"] . ' />
+                                                        <input type="hidden" name="image_id" value =' . $row["image_id"] . ' />
+                                                      <button type="submit" class="imageButtonClass">
+                                                        
+                                                            <img src="CSS-Content/gallery/' . $row["filename"] . '" class="posts" alt="CSS-Content/samples/car.jpg"/>
+                                                        
+                                                      </button>
+                                                    </form>
+                                                </div>
+                                                    <div class="col-sm-6 col-12 captions" >
+                                                        <div class="cardStyle card-body">
+                                                            <h5 class="card-title">' . $row["cHeading"] . '</h5>
+                                                            <p class="card-text paragraph2">' . $row["caption"] . '</p>
+                                                            <p class="card-text paragraph2">' . $row["hashtags"] . '</p>
+                                                            <p class="card-text"><small class="text-muted">Uploaded by user' . $row["user_id"] . ' - ' . $row["timestampDT"] . ' </small></p>
+                                                            
+                                                                              ';
+
+                                $sqlQuery = "SELECT comment_id, CommentText FROM tbcomments WHERE image_id = " . $row["image_id"] . " ORDER BY comment_id DESC";
+                                $results = $conn->query($sqlQuery);
+                                $counting = 0;
+                                if ($results->num_rows > 0) {
+                                    while ($rows = $results->fetch_assoc()) {
+                                        if ($counting < 1) {
+                                            echo '<p>' . $rows["CommentText"] . '</p>';
+                                        }
+                                        $counting++;
+
+
+                                    }
+                                }
+
+
+                                echo '
+                                                            
+                                                            <button class="comment btn btn-outline-secondary"><i class="far fa-comment-alt"></i></button>
+                                                            <button class="report btn btn-outline-secondary"><i class="far fa-flag"></i></button>
+                                                            
+                                                             <form class="commentForm" method="POST" action="pushComments.php">
+                                                               <br>
+                                                                <div class="form-group">
+                                                                    <input type="hidden" name="loginEmail" value =' . $_POST["loginEmail"] . ' />
+                                                                    <input type="hidden" name="loginPass" value =' . $_POST["loginPass"] . ' />
+                                                                    <input type="hidden" name="image_id" value =' . $row["image_id"] . ' />
+                                                                   
+                                                                    <input type="text" class="form-control" name="comment" id="comment" placeholder="Comment Here"/>
+                                                                    <br>
+                                                        
+                                                                    <input type="submit" class="btn btn-outline-dark" value="Upload" name="submit" />
+                                                                    <button type="button" class="btn btn-outline-dark" >Close</button>
+                                                                </div>
+                                                            </form>
+                                                            <form action="#" method="post" class="reportType">
+                                                            <br>
+                                                              <label for="report">Choose a report type:</label>
+                                                              <select name="reportType" class="reportSelector">
+                                                                <option value="Nudity">Nudity</option>
+                                                                <option value="Violence">Violence</option>
+                                                                <option value="imIn">Im in this post and I do not like it</option>
+                                                                <option value="inappropriate">Inappropriate</option>
+                                                              </select>
+                                                              <br><br>
+                                                              <input type="hidden" name="loginEmail" value =' . $_POST["loginEmail"] . ' />
+                                                              <input type="hidden" name="loginPass" value =' . $_POST["loginPass"] . ' />
+                                                              <input class="btn btn-outline-dark" type="submit" value="Submit" name="reportSubmit">
+                                                            </form>
+                                                            
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                   
+                            ';
+                            }
+                            $count++;
+
+                            if (false) {
+                                if ($count == $half) {//LAST RUN TO CLOSE DIV --> half of table
+                                    echo '
+                                        <div class="card-border-dark mb-3">
+                                            <div class="row no-gutters" id="caption1">
+                                                <div class="col-sm-6 col-12 captions" >
+                                                    <div class="cardStyle card-body" >
+                                                     <h5 class="card-title">' . $row["cHeading"] . '</h5>
+                                                     <p class="card-text paragraph2">' . $row["caption"] . '</p>
+                                                     <p class="card-text paragraph2">' . $row["hashtags"] . '</p>
+                                                     <p class="card-text"><small class="text-muted">Uploaded by user' . $row["user_id"] . ' - ' . $row["timestampDT"] . ' </small></p>
+                                                     ';
+
+                                    $sqlQuery = "SELECT comment_id, CommentText FROM tbcomments WHERE image_id = " . $row["image_id"] . " ORDER BY comment_id DESC";
+                                    $results = $conn->query($sqlQuery);
+                                    $counting = 0;
+                                    if ($results->num_rows > 0) {
+                                        while ($rows = $results->fetch_assoc()) {
+                                            if ($counting <= 1) {
+                                                echo '<p>' . $rows["CommentText"] . '</p>';
+                                            }
+
+                                            $counting++;
+                                        }
+                                    }
+
+
+                                    echo '
+                                                     <button class="comment btn btn-outline-secondary"><i class="far fa-comment-alt"></i></button>
+                                                     <button class="report btn btn-outline-secondary"><i class="far fa-flag"></i></button>
+                                                     
+                                                      <form class="commentForm" method="POST" action="pushComments.php">
+                                                       <br>
+                                                            <div class="form-group">
+                                                                <input type="hidden" name="loginEmail" value =' . $_POST["loginEmail"] . ' />
+                                                                <input type="hidden" name="loginPass" value =' . $_POST["loginPass"] . ' />
+                                                                <input type="hidden" name="image_id" value =' . $row["image_id"] . ' />
+                                                               
+                                                                <input type="text" class="form-control" name="comment" id="comment" placeholder="Comment Here"/>
+                                                                <br>
+                                                    
+                                                                <input type="submit" class="btn btn-outline-dark" value="Upload" name="submit" />
+                                                                <button type="button" class="btn btn-outline-dark" >Close</button>
+                                                            </div>
+                                                        </form>
+                                                        
+                                                       <form action="#" method="post" class="reportType">
+                                                        <br>
+                                                              <label for="report">Choose a report type:</label>
+                                                              <select name="reportType" class="reportSelector">
+                                                                <option value="Nudity">Nudity</option>
+                                                                <option value="Violence">Violence</option>
+                                                                <option value="imIn">Im in this post and I do not like it</option>
+                                                                <option value="inappropriate">Inappropriate</option>
+                                                              </select>
+                                                              <br><br>
+                                                              <input type="hidden" name="loginEmail" value =' . $_POST["loginEmail"] . ' />
+                                                              <input type="hidden" name="loginPass" value =' . $_POST["loginPass"] . ' />
+                                                              <input class="btn btn-outline-dark" type="submit" value="Submit" name="reportSubmit">
+                                                        </form>
+
+                                                </div>
+                                            </div>
+                                           <div class="col-sm-6 col-12">
+                                                    <form method="post" class="inline" action="PostPage.php" >
+                                                        <input type="hidden" name="loginEmail" value =' . $_POST["loginEmail"] . ' />
+                                                        <input type="hidden" name="loginPass" value =' . $_POST["loginPass"] . ' />
+                                                        <input type="hidden" name="image_id" value =' . $row["image_id"] . ' />
+                                                      <button type="submit" class="imageButtonClass">
+                          
+                                                            <img src="CSS-Content/gallery/' . $row["filename"] . '" class="posts" alt="CSS-Content/samples/car.jpg"/>
+                                                        
+                                                      </button>
+                                                    </form>
+                                        
+                                                </div>
+                                        </div>
+                                    </div>
+                                </div>
+                        
+                       
+                            ';
+                                }
+                                if ($half == -1) {
+
+
+                                    echo '
+
+
+                                        <div class="card-border-dark mb-3">
+                                            <div class="row no-gutters" id="caption1">
+                                                    <div class="col-sm-6 col-12 captions" >
+                                                        <div class="cardStyle card-body" >
+                                                         <h5 class="card-title">' . $row["cHeading"] . '</h5>
+                                                         <p class="card-text paragraph2">' . $row["caption"] . '</p>
+                                                         <p class="card-text paragraph2">' . $row["hashtags"] . '</p>
+                                                         <p class="card-text"><small class="text-muted">Uploaded by user' . $row["user_id"] . ' - ' . $row["timestampDT"] . ' </small></p>
+                                                         
+                                                                           ';
+
+                                    $sqlQuery = "SELECT comment_id, CommentText FROM tbcomments WHERE image_id = " . $row["image_id"] . " ORDER BY comment_id DESC";
+                                    $results = $conn->query($sqlQuery);
+                                    $counting = 0;
+                                    if ($results->num_rows > 0) {
+                                        while ($rows = $results->fetch_assoc()) {
+                                            if ($counting <= 1) {
+                                                echo '<p>' . $rows["CommentText"] . '</p>';
+                                            }
+                                            $counting++;
+
+                                        }
+                                    }
+
+
+                                    echo '
+                                                         
+                                                         <button class="comment btn btn-outline-secondary"><i class="far fa-comment-alt"></i></button>
+                                                        <button class="report btn btn-outline-secondary"><i class="far fa-flag"></i></button>
+                                                         <form class="commentForm" method="POST" action="PushComments.php">
+                                                           <br>
+                                                                <div class="form-group">
+                                                                    <input type="hidden" name="loginEmail" value =' . $_POST["loginEmail"] . ' />
+                                                                    <input type="hidden" name="loginPass" value =' . $_POST["loginPass"] . ' />
+                                                                    <input type="hidden" name="image_id" value =' . $row["image_id"] . ' />
+                                                                   
+                                                                    <input type="text" class="form-control" name="comment" id="comment" placeholder="Comment Here"/>
+                                                                    <br>
+                                                        
+                                                                    <input type="submit" class="btn btn-outline-dark" value="Upload" name="submit" />
+                                                                    <button type="button" class="btn btn-outline-dark" >Close</button>
+                                                                </div>
+                                                            </form>
+                                                            
+                                                            <form action="#" method="post" class="reportType">
+                                                             <br>
+                                                              <label for="report">Choose a report type:</label>
+                                                              <select name="reportType" class="reportSelector">
+                                                                <option value="Nudity">Nudity</option>
+                                                                <option value="Violence">Violence</option>
+                                                                <option value="imIn">Im in this post and I do not like it</option>
+                                                                <option value="inappropriate">Inappropriate</option>
+                                                              </select>
+                                                              <br><br>
+                                                              <input type="hidden" name="loginEmail" value =' . $_POST["loginEmail"] . ' />
+                                                              <input type="hidden" name="loginPass" value =' . $_POST["loginPass"] . ' />
+                                                              <input class="btn btn-outline-dark" type="submit" value="Submit" name="reportSubmit">
+                                                            </form>
+                                                        
+                                                        </div>
+                                                    </div>
+                                                <div class="col-sm-6 col-12">
+                                                     
+                                                    <form method="post" class="inline" action="PostPage.php" >
+                                                        <input type="hidden" name="loginEmail" value =' . $_POST["loginEmail"] . ' />
+                                                        <input type="hidden" name="loginPass" value =' . $_POST["loginPass"] . ' />
+                                                        <input type="hidden" name="image_id" value =' . $row["image_id"] . ' />
                                                       <button type="submit" class="imageButtonClass">
                                                     
                                                             <img src="CSS-Content/gallery/' . $row["filename"] . '" class="posts" alt="CSS-Content/samples/car.jpg"/>
@@ -437,10 +607,8 @@ $pass = isset($_POST["loginPass"]) ? $_POST["loginPass"] : false;
                                     </div>';
 
 
-
-                            }
-                            else if($count<$half){//NORMAL RUN - left side
-                                echo '
+                                } else if ($count < $half) {//NORMAL RUN - left side
+                                    echo '
                                         <div class="card-border-dark mb-3">
                                             <div class="row no-gutters" id="caption1">
                                                     <div class="col-sm-6 col-12 captions" >
@@ -448,33 +616,33 @@ $pass = isset($_POST["loginPass"]) ? $_POST["loginPass"] : false;
                                                          <h5 class="card-title">' . $row["cHeading"] . '</h5>
                                                          <p class="card-text paragraph2">' . $row["caption"] . '</p>
                                                          <p class="card-text paragraph2">' . $row["hashtags"] . '</p>
-                                                         <p class="card-text"><small class="text-muted">Uploaded by user' . $row["user_id"] . ' - '.$row["timestampDT"].' </small></p>
+                                                         <p class="card-text"><small class="text-muted">Uploaded by user' . $row["user_id"] . ' - ' . $row["timestampDT"] . ' </small></p>
                                                          
                                                                            ';
 
-                                $sqlQuery = "SELECT comment_id, CommentText FROM tbcomments WHERE image_id = ".$row["image_id"]." ORDER BY comment_id DESC" ;
-                                $results = $conn->query($sqlQuery);
-                                $counting = 0;
-                                if($results->num_rows> 0) {
-                                    while ($rows = $results->fetch_assoc()) {
-                                        if($counting<=1) {
-                                            echo '<p>' . $rows["CommentText"] . '</p>';
+                                    $sqlQuery = "SELECT comment_id, CommentText FROM tbcomments WHERE image_id = " . $row["image_id"] . " ORDER BY comment_id DESC";
+                                    $results = $conn->query($sqlQuery);
+                                    $counting = 0;
+                                    if ($results->num_rows > 0) {
+                                        while ($rows = $results->fetch_assoc()) {
+                                            if ($counting <= 1) {
+                                                echo '<p>' . $rows["CommentText"] . '</p>';
+                                            }
+                                            $counting++;
+
                                         }
-                                        $counting++;
-
                                     }
-                                }
 
 
-                                echo'
+                                    echo '
                                                          
                                                          <button class="comment btn btn-outline-secondary"><i class="far fa-comment-alt"></i></button>
                                                         <button class="report btn btn-outline-secondary"><i class="far fa-flag"></i></button>
                                                          <form class="commentForm" method="POST" action="PushComments.php">
                                                            <br>
                                                                 <div class="form-group">
-                                                                    <input type="hidden" name="loginEmail" value ='.$_POST["loginEmail"].' />
-                                                                    <input type="hidden" name="loginPass" value ='.$_POST["loginPass"].' />
+                                                                    <input type="hidden" name="loginEmail" value =' . $_POST["loginEmail"] . ' />
+                                                                    <input type="hidden" name="loginPass" value =' . $_POST["loginPass"] . ' />
                                                                     <input type="hidden" name="image_id" value =' . $row["image_id"] . ' />
                                                                    
                                                                     <input type="text" class="form-control" name="comment" id="comment" placeholder="Comment Here"/>
@@ -495,8 +663,8 @@ $pass = isset($_POST["loginPass"]) ? $_POST["loginPass"] : false;
                                                                 <option value="inappropriate">Inappropriate</option>
                                                               </select>
                                                               <br><br>
-                                                              <input type="hidden" name="loginEmail" value ='.$_POST["loginEmail"].' />
-                                                              <input type="hidden" name="loginPass" value ='.$_POST["loginPass"].' />
+                                                              <input type="hidden" name="loginEmail" value =' . $_POST["loginEmail"] . ' />
+                                                              <input type="hidden" name="loginPass" value =' . $_POST["loginPass"] . ' />
                                                               <input class="btn btn-outline-dark" type="submit" value="Submit" name="reportSubmit">
                                                             </form>
                                                         
@@ -505,9 +673,9 @@ $pass = isset($_POST["loginPass"]) ? $_POST["loginPass"] : false;
                                                 <div class="col-sm-6 col-12">
                                                      
                                                     <form method="post" class="inline" action="PostPage.php" >
-                                                        <input type="hidden" name="loginEmail" value ='.$_POST["loginEmail"].' />
-                                                        <input type="hidden" name="loginPass" value ='.$_POST["loginPass"].' />
-                                                        <input type="hidden" name="image_id" value ='. $row["image_id"] .' />
+                                                        <input type="hidden" name="loginEmail" value =' . $_POST["loginEmail"] . ' />
+                                                        <input type="hidden" name="loginPass" value =' . $_POST["loginPass"] . ' />
+                                                        <input type="hidden" name="image_id" value =' . $row["image_id"] . ' />
                                                       <button type="submit" class="imageButtonClass">
                                                         
                                                             <img src="CSS-Content/gallery/' . $row["filename"] . '" class="posts" alt="CSS-Content/samples/car.jpg"/>
@@ -522,17 +690,16 @@ $pass = isset($_POST["loginPass"]) ? $_POST["loginPass"] : false;
                                         
                                    
                             ';
-                            }
-                            else if ($count == $half+1) {//First Run needs to have the top div - right side
-                                echo '
+                                } else if ($count == $half + 1) {//First Run needs to have the top div - right side
+                                    echo '
                                   <div class="col-12 col-sm-6 mt-3 mt-sm-0 mx-0">
                                     <div class="card-border-dark mb-3" >
                                         <div class="row no-gutters" id="caption1">
                                             <div class="col-sm-6 col-12">
                                                     <form method="post" class="inline" action="PostPage.php" >
-                                                        <input type="hidden" name="loginEmail" value ='.$_POST["loginEmail"].' />
-                                                        <input type="hidden" name="loginPass" value ='.$_POST["loginPass"].' />
-                                                        <input type="hidden" name="image_id" value ='. $row["image_id"] .' />
+                                                        <input type="hidden" name="loginEmail" value =' . $_POST["loginEmail"] . ' />
+                                                        <input type="hidden" name="loginPass" value =' . $_POST["loginPass"] . ' />
+                                                        <input type="hidden" name="image_id" value =' . $row["image_id"] . ' />
                                                       <button type="submit" class="imageButtonClass">
                                                        
                                                             <img src="CSS-Content/gallery/' . $row["filename"] . '" class="posts" alt="CSS-Content/samples/car.jpg"/>
@@ -545,25 +712,25 @@ $pass = isset($_POST["loginPass"]) ? $_POST["loginPass"] : false;
                                                     <h5 class="card-title">' . $row["cHeading"] . '</h5>
                                                     <p class="card-text paragraph2">' . $row["caption"] . '</p>
                                                     <p class="card-text paragraph2">' . $row["hashtags"] . '</p>
-                                                    <p class="card-text"><small class="text-muted">Uploaded by user' . $row["user_id"] . ' - '.$row["timestampDT"].' </small></p>
+                                                    <p class="card-text"><small class="text-muted">Uploaded by user' . $row["user_id"] . ' - ' . $row["timestampDT"] . ' </small></p>
                                                     
                                                                       ';
 
-                                $sqlQuery = "SELECT comment_id, CommentText FROM tbcomments WHERE image_id = ".$row["image_id"]." ORDER BY comment_id DESC" ;
-                                $results = $conn->query($sqlQuery);
-                                $counting = 0;
-                                if($results->num_rows> 0) {
-                                    while ($rows = $results->fetch_assoc()) {
-                                        if($counting<=1) {
-                                            echo '<p>' . $rows["CommentText"] . '</p>';
+                                    $sqlQuery = "SELECT comment_id, CommentText FROM tbcomments WHERE image_id = " . $row["image_id"] . " ORDER BY comment_id DESC";
+                                    $results = $conn->query($sqlQuery);
+                                    $counting = 0;
+                                    if ($results->num_rows > 0) {
+                                        while ($rows = $results->fetch_assoc()) {
+                                            if ($counting <= 1) {
+                                                echo '<p>' . $rows["CommentText"] . '</p>';
+                                            }
+                                            $counting++;
+
                                         }
-                                        $counting++;
-
                                     }
-                                }
 
 
-                                echo'
+                                    echo '
                                                     
                                                     <button type="button" class="comment btn btn-outline-secondary" ><i class="far fa-comment-alt"></i></button>
          
@@ -572,8 +739,8 @@ $pass = isset($_POST["loginPass"]) ? $_POST["loginPass"] : false;
                                                        <form class="commentForm" method="POST" action="pushComments.php">
                                                        <br>
                                                             <div class="form-group">
-                                                                <input type="hidden" name="loginEmail" value ='.$_POST["loginEmail"].' />
-                                                                <input type="hidden" name="loginPass" value ='.$_POST["loginPass"].' />
+                                                                <input type="hidden" name="loginEmail" value =' . $_POST["loginEmail"] . ' />
+                                                                <input type="hidden" name="loginPass" value =' . $_POST["loginPass"] . ' />
                                                                 <input type="hidden" name="image_id" value =' . $row["image_id"] . ' />
                                                                
                                                                 <input type="text" class="form-control" name="comment" id="comment" placeholder="Comment Here"/>
@@ -594,8 +761,8 @@ $pass = isset($_POST["loginPass"]) ? $_POST["loginPass"] : false;
                                                                 <option value="inappropriate">Inappropriate</option>
                                                               </select>
                                                               <br><br>
-                                                              <input type="hidden" name="loginEmail" value ='.$_POST["loginEmail"].' />
-                                                              <input type="hidden" name="loginPass" value ='.$_POST["loginPass"].' />
+                                                              <input type="hidden" name="loginEmail" value =' . $_POST["loginEmail"] . ' />
+                                                              <input type="hidden" name="loginPass" value =' . $_POST["loginPass"] . ' />
                                                               <input class="btn btn-outline-dark" type="submit" value="Submit" name="reportSubmit">
                                                         </form>
                                                 </div>
@@ -605,15 +772,15 @@ $pass = isset($_POST["loginPass"]) ? $_POST["loginPass"] : false;
                                     
                                 
                                 ';
-                            } else if($count>$half){//NORMAL RUN  right side
-                                echo '
+                                } else if ($count > $half) {//NORMAL RUN  right side
+                                    echo '
                                             <div class="card-border-dark mb-3" >
                                                 <div class="row no-gutters" id="caption1">
                                                      <div class="col-sm-6 col-12">
                                                     <form method="post" class="inline" action="PostPage.php" >
-                                                        <input type="hidden" name="loginEmail" value ='.$_POST["loginEmail"].' />
-                                                        <input type="hidden" name="loginPass" value ='.$_POST["loginPass"].' />
-                                                        <input type="hidden" name="image_id" value ='. $row["image_id"] .' />
+                                                        <input type="hidden" name="loginEmail" value =' . $_POST["loginEmail"] . ' />
+                                                        <input type="hidden" name="loginPass" value =' . $_POST["loginPass"] . ' />
+                                                        <input type="hidden" name="image_id" value =' . $row["image_id"] . ' />
                                                       <button type="submit" class="imageButtonClass">
                                                         
                                                             <img src="CSS-Content/gallery/' . $row["filename"] . '" class="posts" alt="CSS-Content/samples/car.jpg"/>
@@ -626,16 +793,16 @@ $pass = isset($_POST["loginPass"]) ? $_POST["loginPass"] : false;
                                                             <h5 class="card-title">' . $row["cHeading"] . '</h5>
                                                             <p class="card-text paragraph2">' . $row["caption"] . '</p>
                                                             <p class="card-text paragraph2">' . $row["hashtags"] . '</p>
-                                                            <p class="card-text"><small class="text-muted">Uploaded by user' . $row["user_id"] . ' - '.$row["timestampDT"].' </small></p>
+                                                            <p class="card-text"><small class="text-muted">Uploaded by user' . $row["user_id"] . ' - ' . $row["timestampDT"] . ' </small></p>
                                                             
                                                                               ';
 
-                                    $sqlQuery = "SELECT comment_id, CommentText FROM tbcomments WHERE image_id = ".$row["image_id"]." ORDER BY comment_id DESC" ;
+                                    $sqlQuery = "SELECT comment_id, CommentText FROM tbcomments WHERE image_id = " . $row["image_id"] . " ORDER BY comment_id DESC";
                                     $results = $conn->query($sqlQuery);
                                     $counting = 0;
-                                    if($results->num_rows> 0) {
+                                    if ($results->num_rows > 0) {
                                         while ($rows = $results->fetch_assoc()) {
-                                            if($counting<1) {
+                                            if ($counting < 1) {
                                                 echo '<p>' . $rows["CommentText"] . '</p>';
                                             }
                                             $counting++;
@@ -645,7 +812,7 @@ $pass = isset($_POST["loginPass"]) ? $_POST["loginPass"] : false;
                                     }
 
 
-                                echo'
+                                    echo '
                                                             
                                                             <button class="comment btn btn-outline-secondary"><i class="far fa-comment-alt"></i></button>
                                                             <button class="report btn btn-outline-secondary"><i class="far fa-flag"></i></button>
@@ -653,8 +820,8 @@ $pass = isset($_POST["loginPass"]) ? $_POST["loginPass"] : false;
                                                              <form class="commentForm" method="POST" action="pushComments.php">
                                                                <br>
                                                                 <div class="form-group">
-                                                                    <input type="hidden" name="loginEmail" value ='.$_POST["loginEmail"].' />
-                                                                    <input type="hidden" name="loginPass" value ='.$_POST["loginPass"].' />
+                                                                    <input type="hidden" name="loginEmail" value =' . $_POST["loginEmail"] . ' />
+                                                                    <input type="hidden" name="loginPass" value =' . $_POST["loginPass"] . ' />
                                                                     <input type="hidden" name="image_id" value =' . $row["image_id"] . ' />
                                                                    
                                                                     <input type="text" class="form-control" name="comment" id="comment" placeholder="Comment Here"/>
@@ -674,8 +841,8 @@ $pass = isset($_POST["loginPass"]) ? $_POST["loginPass"] : false;
                                                                 <option value="inappropriate">Inappropriate</option>
                                                               </select>
                                                               <br><br>
-                                                              <input type="hidden" name="loginEmail" value ='.$_POST["loginEmail"].' />
-                                                              <input type="hidden" name="loginPass" value ='.$_POST["loginPass"].' />
+                                                              <input type="hidden" name="loginEmail" value =' . $_POST["loginEmail"] . ' />
+                                                              <input type="hidden" name="loginPass" value =' . $_POST["loginPass"] . ' />
                                                               <input class="btn btn-outline-dark" type="submit" value="Submit" name="reportSubmit">
                                                             </form>
                                                             
@@ -685,14 +852,14 @@ $pass = isset($_POST["loginPass"]) ? $_POST["loginPass"] : false;
                                             </div>
                                    
                             ';
+                                }
+
+
+                                $count++;
+
+
+                                //echo '<div class="col-3" style="background-image: url(gallery/".$row["filename"].")'> </div>'';
                             }
-
-
-
-                            $count++;
-
-
-                            //echo '<div class="col-3" style="background-image: url(gallery/".$row["filename"].")'> </div>'';
                         }
     //echo $count;
                     }
